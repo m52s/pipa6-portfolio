@@ -1,0 +1,104 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+    /* 全体の設定 */
+        body { 
+            font-family: 'Zen Maru Gothic', sans-serif; 
+            background-color: #0a0a0a; 
+            color: #ffffff;
+            margin: 0;
+            overflow-x: hidden;
+            /* ★重要：背景が透けても文字が読めるように薄い影をつける */
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+        
+        .eng-font { font-family: 'Quicksand', sans-serif; }
+        
+        /* 背景動画固定 */
+        .video-wrap {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100vh;
+            z-index: -1;
+            overflow: hidden;
+        }
+        .video-bg {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            /* 動画自体の明るさは少し落とす（文字を見やすくするため） */
+            opacity: 0.7;
+        }
+        
+        /* ■ 修正ポイント：コンテンツレイヤーの透明度とシャドウ */
+        .content-layer {
+            position: relative;
+            z-index: 10;
+            /* ★変更点1：真っ黒ではなく、透明度のある黒(rgba)に変更
+               透明→半透明の黒へのグラデーション
+            */
+            background: linear-gradient(to bottom, transparent 0%, rgba(10, 10, 10, 0.55) 20%, rgba(10, 10, 10, 0.95) 100%);
+            
+            margin-top: 85vh;
+            padding-top: 100px;
+            padding-bottom: 50px;
+            
+            /* ★変更点2：線に見えていたシャドウを削除 */
+            /* box-shadow: 0 -20px 50px rgba(0,0,0,1); */
+            
+            /* 代わりに上端を少しぼかす（任意） */
+            /* mask-image: linear-gradient(to bottom, transparent, black 20%); */
+        }
+
+        /* アクセントカラー */
+        .text-gradient {
+            background: linear-gradient(to right, #f472b6, #fb923c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            /* グラデーション文字にはテキストシャドウはかけない */
+            text-shadow: none;
+        }
+        
+        /* タイムラインの装飾 */
+        .timeline-line {
+            position: absolute;
+            left: 20px;
+            top: 0; bottom: 0;
+            width: 1px;
+            /* 線も少し透けさせる */
+            background: linear-gradient(to bottom, rgba(244, 114, 182, 0.5), rgba(251, 146, 60, 0.5), transparent);
+        }
+        @media (min-width: 768px) {
+            .timeline-line { left: 50%; }
+        }
+
+        /* 写真のホバー演出 */
+        .photo-card {
+            transition: all 0.5s ease;
+            filter: grayscale(80%) brightness(0.9); /* 少し暗くしておく */
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3); /* 写真自体に影をつける */
+        }
+        .photo-card:hover {
+            filter: grayscale(0%) brightness(1);
+            transform: scale(1.03);
+            box-shadow: 0 10px 30px rgba(244, 114, 182, 0.4);
+        }
+        .photo-card img { width: 100%; height: 100%; object-fit: cover; }
+
+        /* 音声ボタン */
+        .sound-toggle-btn {
+            position: fixed;
+            bottom: 30px; right: 30px;
+            z-index: 50;
+            background-color: rgba(0,0,0,0.5); /* 背景を少し濃く */
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            width: 50px; height: 50px;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .sound-toggle-btn:hover { background-color: rgba(244, 114, 182, 0.7); border-color: transparent; }
