@@ -19,3 +19,29 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+// 動画要素とメッセージ要素を取得
+const video = document.getElementById('bgVideo');
+const msg = document.getElementById('lowPowerMsg');
+
+if (video) {
+    // 1. 再生が始まったら動画を表示（フェードイン）
+    video.addEventListener('play', () => {
+        video.classList.remove('opacity-0');
+        // 再生できたらメッセージは隠す（念のため）
+        if(msg) msg.classList.add('hidden');
+    });
+
+    // 2. 自動再生を試みる
+    const playPromise = video.play();
+
+    if (playPromise !== undefined) {
+        playPromise.catch(error => {
+            // ここに来るのは「省電力モード」などで自動再生がブロックされた時
+            console.log('Autoplay prevented (Low Power Mode etc.)');
+            
+            // 動画は透明のまま（裏のポスター画像が見える状態）にして、
+            // メッセージを表示する
+            if(msg) msg.classList.remove('hidden');
+        });
+    }
+}
